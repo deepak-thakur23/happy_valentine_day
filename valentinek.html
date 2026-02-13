@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Will You Be My Valentine? 💝</title>
+
+    <!-- WhatsApp preview meta tags -->
+    <meta property="og:title" content="💝 Valentine's Day Question 💝">
+    <meta property="og:description" content="Someone has a special question for you...">
+    <meta property="og:image" content="https://i.imgur.com/7Yz7qQp.png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            background-attachment: fixed;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .valentine-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #fff;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            cursor: default;
+        }
+
+        .valentine-card.moving {
+            animation: shakeCard 0.5s ease-in-out;
+        }
+
+        @keyframes shakeCard {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            20% {
+                transform: translate(20px, -10px) rotate(2deg);
+            }
+
+            40% {
+                transform: translate(-20px, 15px) rotate(-3deg);
+            }
+
+            60% {
+                transform: translate(15px, -15px) rotate(3deg);
+            }
+
+            80% {
+                transform: translate(-15px, 10px) rotate(-2deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .valentine-card.fly-away {
+            animation: flyAway 1s ease-in-out forwards;
+        }
+
+        @keyframes flyAway {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+
+            30% {
+                transform: translate(100px, -50px) scale(1.2);
+            }
+
+            60% {
+                transform: translate(-100px, -100px) scale(0.8);
+            }
+
+            100% {
+                transform: translate(0, -500px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .valentine-card.chase-card {
+            animation: chaseAround 2s linear infinite;
+        }
+
+        @keyframes chaseAround {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(30px, 20px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-30px, -20px) rotate(-5deg);
+            }
+
+            75% {
+                transform: translate(20px, -30px) rotate(3deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.6;
+            animation: heartFloat 4s linear infinite;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .heart-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            color: #ff4d6d;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(255, 77, 109, 0.3);
+            line-height: 1.2;
+        }
+
+        .question {
+            font-size: 2.2em;
+            font-weight: 600;
+            color: #2d3436;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            padding: 15px;
+            border-radius: 50px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .name-input-container {
+            margin-bottom: 30px;
+            text-align: left;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+        .name-label {
+            display: block;
+            font-size: 1.1em;
+            color: #495057;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .name-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: 3px solid #ffb8b8;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .name-input:focus {
+            border-color: #ff4d6d;
+            box-shadow: 0 0 0 4px rgba(255, 77, 109, 0.2);
+            transform: scale(1.02);
+        }
+
+        .name-input::placeholder {
+            color: #adb5bd;
+            font-style: italic;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            position: relative;
+            min-height: 60px;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 15px 50px;
+            font-size: 1.8em;
+            font-weight: 600;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            min-width: 180px;
+            z-index: 20;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff8787 100%);
+            color: white;
+            border: 3px solid white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 20px 30px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+            color: white;
+            border: 3px solid white;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .btn-no:hover {
+            background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+        }
+
+        /* Success message styles */
+        .success-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .success-content {
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff8787 100%);
+            padding: 50px;
+            border-radius: 60px;
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            margin: 20px;
+            box-shadow: 0 30px 70px rgba(255, 77, 109, 0.5);
+            border: 5px solid white;
+            animation: popIn 0.5s;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-content h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .success-content p {
+            font-size: 2em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .success-content .big-heart {
+            font-size: 100px;
+            animation: heartbeat 1s ease-in-out infinite;
+            display: block;
+            margin: 20px 0;
+        }
+
+        .close-btn {
+            background: white;
+            color: #ff4d6d;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .whatsapp-share {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .mischief-meter {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff4d6d;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .question {
+                font-size: 1.6em;
+            }
+
+            .btn {
+                font-size: 1.4em;
+                padding: 12px 30px;
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="valentine-card" id="valentineCard">
+            <!-- Floating hearts animation -->
+            <div class="hearts" id="heartsContainer"></div>
+
+            <div class="heart-emoji">❤️</div>
+            <h1>💝 A Very Special Question 💝</h1>
+
+            <div class="question">
+                Will you be my Valentine?
+            </div>
+
+            <!-- Name input field -->
+            <!-- <div class="name-input-container" id="nameContainer">
+                <label class="name-label">💕 Your name (so I can thank you properly):</label>
+                <input type="text" class="name-input" id="nameInput" placeholder="Enter your name here..."
+                    maxlength="30">
+            </div> -->
+
+            <!-- Buttons container -->
+            <div class="button-container" id="buttonContainer">
+                <button class="btn btn-yes" id="yesBtn" onclick="showSuccessMessage()">YES 💝</button>
+                <button class="btn btn-no" id="noBtn" onmouseover="moveWholeCard()" onclick="event.preventDefault()">NO
+                    💔</button>
+            </div>
+
+            <!-- Mischief meter makeCardFlyAway() -->
+            <div class="mischief-meter">
+                <span id="mischiefText">Mischief level: 0%</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="mischiefProgress"></div>
+                </div>
+            </div>
+
+            <!-- WhatsApp share section -->
+            <div class="whatsapp-share">
+                <a href="" class="whatsapp-btn" id="">
+                    This msg is comming from Deepak's..<span>📱</span>!
+                </a>
+                <!-- <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                    Click to share this Valentine's question with someone special!
+                </div> -->
+            </div>
+        </div>
+
+        <div class="footer">
+            Made with 💝 for someone special
+        </div>
+    </div>
+
+    <!-- Success Message Modal -->
+    <div class="success-message" id="successMessage">
+        <div class="success-content">
+            <span class="big-heart">❤️</span>
+            <h2>Thank You!</h2>
+            <p id="thankYouMessage"></p>
+            <p style="font-size: 1.5em; margin: 20px 0;">You've made someone very happy! 💕</p>
+            <div style="font-size: 30px; margin: 20px 0;">
+                ❤️ 💝 💖 💗 💓
+            </div>
+            <button class="close-btn" onclick="hideSuccessMessage()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get the current page URL for sharing
+        const currentUrl = window.location.href;
+
+        // Set up WhatsApp share link
+        const shareText = encodeURIComponent("💝 Someone has a very special question for you! Will you be their Valentine? 💝\n\nClick here to answer: ");
+        document.getElementById('whatsappShareBtn');
+
+        // Variables for mischief tracking
+        let mischiefCount = 0;
+        let cardState = 'normal'; // normal, moving, chasing, flying
+        let chaseInterval;
+
+        // Function to move the entire card
+        function moveWholeCard() {
+            const card = document.getElementById('valentineCard');
+            const noBtn = document.getElementById('noBtn');
+
+            // Increase mischief counter
+            mischiefCount++;
+            updateMischiefMeter();
+
+            // Don't move if card is flying away
+            if (cardState === 'flying') return;
+
+            // Randomly choose card movement style
+            const moveStyle = Math.floor(Math.random() * 4);
+
+            // Remove previous animation classes
+            card.classList.remove('moving', 'chase-card', 'fly-away');
+
+            switch (moveStyle) {
+                case 0: // Shake the card
+                    card.classList.add('moving');
+                    setTimeout(() => {
+                        card.classList.remove('moving');
+                    }, 500);
+                    break;
+
+                case 1: // Make the card jump to a random position
+                    const randomX = (Math.random() - 0.5) * 100;
+                    const randomY = (Math.random() - 0.5) * 100;
+                    const randomRotate = (Math.random() - 0.5) * 20;
+
+                    card.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRotate}deg)`;
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 500);
+                    break;
+
+                case 2: // Make the card spin
+                    card.style.transform = 'rotate(360deg) scale(0.8)';
+                    card.style.transition = 'transform 0.5s ease';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                        card.style.transition = '';
+                    }, 500);
+                    break;
+
+                case 3: // Start chasing mode (card follows mouse)
+                    if (cardState !== 'chasing') {
+                        startChaseMode();
+                    }
+                    break;
+            }
+
+            // Change button text occasionally
+            if (mischiefCount % 3 === 0) {
+                const funnyTexts = ['🙅‍♂️ Nope', '😅 Try again', '🤔 Sure?', '🙈 Missed', '🎯 So close', '😘 Maybe?', '💔 Oops'];
+                const randomIndex = Math.floor(Math.random() * funnyTexts.length);
+                noBtn.innerHTML = funnyTexts[randomIndex];
+            }
+
+            // Make name input wiggle
+            const nameContainer = document.getElementById('nameContainer');
+            nameContainer.style.transform = 'scale(1.02)';
+            nameContainer.style.transition = 'transform 0.2s';
+            setTimeout(() => {
+                nameContainer.style.transform = '';
+            }, 200);
+        }
+
+        // Function to make card fly away dramatically
+        function makeCardFlyAway() {
+            const card = document.getElementById('valentineCard');
+            const noBtn = document.getElementById('noBtn');
+
+            // Stop chase mode if active
+            if (chaseInterval) {
+                clearInterval(chaseInterval);
+                cardState = 'flying';
+            }
+
+            // Fly away animation
+            card.classList.add('fly-away');
+            noBtn.innerHTML = '😢 Goodbye!';
+
+            // Bring card back after 2 seconds
+            setTimeout(() => {
+                card.classList.remove('fly-away');
+                cardState = 'normal';
+                noBtn.innerHTML = 'NO 💔';
+
+                // Confetti of broken hearts
+                for (let i = 0; i < 20; i++) {
+                    createHeart('💔', '#ff4d6d');
+                }
+            }, 2000);
+        }
+
+        // Function to start chase mode (card follows mouse)
+        function startChaseMode() {
+            const card = document.getElementById('valentineCard');
+            cardState = 'chasing';
+
+            // Show chase mode message
+            const mischiefText = document.getElementById('mischiefText');
+            mischiefText.innerHTML = '🎮 CHASE MODE ACTIVATED! Try to catch the YES button!';
+
+            // Mouse move listener
+            function chaseMouse(e) {
+                if (cardState !== 'chasing') {
+                    document.removeEventListener('mousemove', chaseMouse);
+                    return;
+                }
+
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const cardRect = card.getBoundingClientRect();
+
+                // Move card away from mouse
+                const deltaX = mouseX - (cardRect.left + cardRect.width / 2);
+                const deltaY = mouseY - (cardRect.top + cardRect.height / 2);
+
+                // Move opposite direction
+                const moveX = -deltaX * 0.1;
+                const moveY = -deltaY * 0.1;
+
+                // Keep card within viewport
+                const newX = Math.max(-200, Math.min(200, moveX));
+                const newY = Math.max(-150, Math.min(150, moveY));
+
+                card.style.transform = `translate(${newX}px, ${newY}px)`;
+            }
+
+            document.addEventListener('mousemove', chaseMouse);
+
+            // Stop chase mode after 5 seconds
+            setTimeout(() => {
+                if (cardState === 'chasing') {
+                    cardState = 'normal';
+                    card.style.transform = '';
+                    mischiefText.innerHTML = 'Mischief level: ' + mischiefCount + '%';
+                    document.removeEventListener('mousemove', chaseMouse);
+                }
+            }, 5000);
+        }
+
+        // Function to update mischief meter
+        function updateMischiefMeter() {
+            const mischiefLevel = Math.min(mischiefCount * 10, 100);
+            document.getElementById('mischiefText').innerHTML = `Mischief level: ${mischiefLevel}%`;
+            document.getElementById('mischiefProgress').style.width = mischiefLevel + '%';
+
+            // Create floating heart on mischief
+            if (mischiefCount % 2 === 0) {
+                createHeart('😈', '#ff4d6d');
+            }
+        }
+
+        // Function to show success message with name
+        function showSuccessMessage() {
+            //const nameInput = document.getElementById('nameInput').value.trim();
+
+            // If name is empty, use a default
+            const name = "Kirti Sweetheart My Love💋";
+
+            // Set the thank you message
+            const thankYouMessage = `💝 Thank you, ${name}! 💝`;
+            document.getElementById('thankYouMessage').textContent = thankYouMessage;
+
+            // Show success message
+            document.getElementById('successMessage').style.display = 'flex';
+
+            // Create confetti effect
+            createConfetti();
+        }
+
+        // Function to hide success message
+        function hideSuccessMessage() {
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Function to create confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    createHeart('❤️', '#ff4d6d');
+                }, i * 50);
+            }
+        }
+
+        // Function to create a floating heart
+        function createHeart(symbol, color) {
+            const heart = document.createElement('div');
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-10px';
+            heart.style.fontSize = (Math.random() * 30 + 10) + 'px';
+            heart.style.opacity = Math.random();
+            heart.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+            heart.style.color = color;
+            heart.style.zIndex = '9999';
+            heart.innerHTML = symbol || '❤️';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        // Add CSS for confetti animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = ['❤️', '💝', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 6)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.fontSize = (Math.random() * 30 + 10) + 'px';
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }, 300);
+        }
+
+        // Handle name input with some fun effects
+        document.getElementById('nameInput').addEventListener('input', function (e) {
+            const value = e.target.value;
+
+            // If name is getting longer, increase mischief sensitivity
+            if (value.length > 10) {
+                document.getElementById('mischiefText').innerHTML = '⚠️ DANGER ZONE! Card is extra mischievous!';
+            }
+        });
+
+        // Prevent clicking on NO button
+        document.getElementById('noBtn').addEventListener('click', function (e) {
+            e.preventDefault();
+        });
+
+        // Initialize floating hearts
+        createFloatingHearts();
+
+        // Add some initial mischief
+        window.addEventListener('load', function () {
+            setTimeout(() => {
+                moveWholeCard();
+            }, 1000);
+        });
+    </script>
+</body>
+
+</html>
