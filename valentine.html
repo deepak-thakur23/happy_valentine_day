@@ -484,11 +484,11 @@
             <!-- Buttons container -->
             <div class="button-container" id="buttonContainer">
                 <button class="btn btn-yes" id="yesBtn" onclick="showSuccessMessage()">YES 💝</button>
-                <button class="btn btn-no" id="noBtn" onmouseover="moveWholeCard()"
-                    onclick="event.preventDefault(); makeCardFlyAway()">NO 💔</button>
+                <button class="btn btn-no" id="noBtn" onmouseover="moveWholeCard()" onclick="event.preventDefault()">NO
+                    💔</button>
             </div>
 
-            <!-- Mischief meter -->
+            <!-- Mischief meter makeCardFlyAway() -->
             <div class="mischief-meter">
                 <span id="mischiefText">Mischief level: 0%</span>
                 <div class="progress-bar">
@@ -498,8 +498,8 @@
 
             <!-- WhatsApp share section -->
             <div class="whatsapp-share">
-                <a href="" class="whatsapp-btn" id="whatsappShareBtn">
-                    This msg comming from Deepak's..!<span>📱</span>
+                <a href="" class="whatsapp-btn" id="">
+                    This msg is comming from Deepak's..!<span>📱</span>
                 </a>
                 <!-- <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
                     Click to share this Valentine's question with someone special!
@@ -532,8 +532,7 @@
 
         // Set up WhatsApp share link
         const shareText = encodeURIComponent("💝 Someone has a very special question for you! Will you be their Valentine? 💝\n\nClick here to answer: ");
-        const whatsappLink = `https://wa.me/?text=${shareText}${encodeURIComponent(currentUrl)}`;
-        document.getElementById('whatsappShareBtn').href = whatsappLink;
+        document.getElementById('whatsappShareBtn');
 
         // Variables for mischief tracking
         let mischiefCount = 0;
